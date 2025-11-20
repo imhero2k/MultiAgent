@@ -73,6 +73,13 @@ def route_with_accidents(
     # 2) Count accidents along that polyline
     acc = accidents_along_route(poly, buffer_meters=buffer_meters)
 
+    # Cache the polyline for other agents (e.g. weather_agent)
+    try:
+        with open("latest_polyline.txt", "w") as f:
+            f.write(poly)
+    except Exception as e:
+        print(f"Warning: Could not cache polyline: {e}")
+
     return {
         "origin": origin,
         "destination": destination,
